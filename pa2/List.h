@@ -21,7 +21,6 @@ int index(List L);
 void* front(List L);
 void* back(List L);
 void* get(List L);
-int equals(List A, List B);
 
 // Manipulation procedures ----------------------------------------------------
 void clear(List L);
@@ -39,6 +38,5 @@ void delete(List L);
 
 // Other operations -----------------------------------------------------------
 // void printList(FILE* out, List L);
-List copyList(List L);
 
 #endif

@@ -102,10 +102,12 @@ int index(List L) {
 		exit(1);
 	}
 	
-	if(isEmpty(L) || L->cursor > length(L)) 
-		return -1;
-	else 
+	if(!isEmpty(L) && !(L->cursor => length(L)) {
 		return(L->cursor);
+	}
+	else {
+		return -1;
+	} 
 }
 
 void* front(List L) {
@@ -118,7 +120,7 @@ void* front(List L) {
 		exit(1);
 	}
 	
-	return(L->front->data);
+	return(*(type*)L->front->data);
 }
 
 void* back(List L) {
@@ -151,27 +153,6 @@ void* get(List L) {
 		N = N->next;
 	}
 	return N->data;
-}
-
-int equals(List A, List B) {
-	int eq = 0;
-	Node N = NULL;
-	Node M = NULL;
-
-	if(A == NULL || B == NULL) {
-		printf("List Error: calling equals() on NULL List reference\n");
-		exit(1);
-	}
-
-	eq = (A->length == B->length);
-	N = A->front;
-	M = B->front;
-	while(eq && N != NULL) {
-		eq = (N->data == M->data);
-		N = N->next;
-		M = M->next;
-	}
-	return eq;
 }
 
 // Manipulation procedures ----------------------------------------------------
@@ -454,13 +435,4 @@ void printList(FILE* out, List L) {
 		fprintf(out, "%d ", N->data);
 	}
 	fprintf(out, "\n");
-}
-
-List copyList(List L) {
-	Node N = NULL;
-	List M = newList();
-	for(N = L->front; N != NULL; N = N->next) {
-		append(M, N->data);
-	}
-	return M;
 }
