@@ -84,3 +84,5 @@ Matrix product(Matrix A, Matrix B);
 // list of pairs "(col, val)" giving the column numbers and non-zero values
 // in that row. The double val will be rounded to 1 decimal point.
 void printMatrix(FILE* out, Matrix M);
+
+#endif

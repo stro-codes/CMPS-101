@@ -13,7 +13,7 @@
 
 // private NodeObj type
 typedef struct NodeObj {
-	int data;
+	void* data;
 	struct NodeObj* next;
 	struct NodeObj* prev;
 } NodeObj;
@@ -37,7 +37,7 @@ typedef ListObj* List;
 // newNode()
 // Returns reference to new Node object. Initializes next and data fields.
 // Private.
-Node newNode(int data){
+Node newNode(void* data){
 	Node N = malloc(sizeof(NodeObj));
 	N->data = data;
 	N->next = N->prev = NULL;
@@ -102,13 +102,13 @@ int index(List L) {
 		exit(1);
 	}
 	
-	if(isEmpty(L)) 
+	if(isEmpty(L) || L->cursor > length(L)) 
 		return -1;
 	else 
 		return(L->cursor);
 }
 
-int front(List L) {
+void* front(List L) {
 	if(L == NULL) {
 		printf("List Error: calling front() on NULL List reference\n");
 		exit(1);
@@ -121,7 +121,7 @@ int front(List L) {
 	return(L->front->data);
 }
 
-int back(List L) {
+void* back(List L) {
 	if(L == NULL) {
 		printf("List Error: calling back() on NULL List reference\n");
 		exit(1);
@@ -134,7 +134,7 @@ int back(List L) {
 	return(L->back->data);
 }
 
-int get(List L) {
+void* get(List L) {
 	if(L == NULL) {
 		printf("List Error: calling get() on NULL List reference\n");
 		exit(1);
@@ -257,7 +257,7 @@ void moveNext(List L) {
 	}
 }
 
-void prepend(List L, int data) {
+void prepend(List L, void* data) {
 	if(L == NULL) {
 		printf("List Error: calling prepend() on NULL List reference\n");
 		exit(1);
@@ -278,7 +278,7 @@ void prepend(List L, int data) {
 	}
 }
 
-void append(List L, int data) {
+void append(List L, void* data) {
 	if(L == NULL) {
 		printf("List Error: calling append() on NULL List reference\n");
 		exit(1);
@@ -296,7 +296,7 @@ void append(List L, int data) {
 	L->length = L->length + 1;
 }
 
-void insertBefore(List L, int data) {
+void insertBefore(List L, void* data) {
 	if(L == NULL) {
 		printf("List Error: calling insertBefore() on NULL List reference\n");
 		exit(1);
@@ -327,7 +327,7 @@ void insertBefore(List L, int data) {
 	}
 }
 
-void insertAfter(List L, int data) {
+void insertAfter(List L, void* data) {
 	if(L == NULL) {
 		printf("List Error: calling insertAfter() on NULL List reference\n");
 		exit(1);
