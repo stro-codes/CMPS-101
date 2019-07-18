@@ -47,8 +47,7 @@ Matrix newMatrix(int n) {
     M->arr = calloc(n, sizeof(List));
     M->n = n;
     for(int i = 0; i < n; i++) {
-		List L = newList();
-        M->arr[i] = L;
+        M->arr[i] = newList();;
     }
     return M;
 }
@@ -98,17 +97,22 @@ int equals(Matrix A, Matrix B) {
     int bool = 0;
     if(size(A) == size(B) && NNZ(A) == NNZ(B)) {
         for(int i = 0; i < size(A); i++) {
-            if( (A) == (B)) {
-                bool = 1;
+            List L = A->arr[i];
+            List N = B->arr[i];
+            if(length(L) != length(N))
+                return(bool == 0);
+            if(!isEmpty(L)) {
+                moveFront(L);
+                moveFront(N);
             }
-            else {
-                bool = 0;
-                break;
+            while(index(L) >= 0) {
+                if(get(L) == get(N))
+                    bool = 1;
+                else 
+                    return(bool == 0);
             }
         }
     }
-
-
     return bool;
 }
 
@@ -121,7 +125,15 @@ void makeZero(Matrix M) {
     }
 
     for(int i = 0; i < size(M); i++) {
-        clear(M->arr[i]);
+        List L = M->arr[i];
+        if(!isEmpty(L))
+            moveFront(L);
+        while(index(L) >= 0) {
+            Entry E = get(L);
+            freeEntry(&E);
+            moveNext(L);
+        }
+        freeList(&L);
     } 
 }
 
@@ -140,7 +152,7 @@ void changeEntry(Matrix M, int i, int j, double x) {
 		// append if row is empty
         if(isEmpty(L)) {
             if(x != 0.0) {
-                prepend(L, E);
+                prepend(L, newEntry(E->column, E->data));
 				printEntry(stdout, front(L));
             }
         }
@@ -163,7 +175,7 @@ void changeEntry(Matrix M, int i, int j, double x) {
 				// insert new column between row with new entry
                 else if(E->column < F->column) {
                     if(E->data != 0.0)
-                        insertBefore(L, E);
+                        insertBefore(L, newEntry(E->column, E->data));
                     break;
                 }
                 else {
@@ -175,10 +187,11 @@ void changeEntry(Matrix M, int i, int j, double x) {
 				// prepend new column at the end of row with new entry
                 if(E->column > F->column) {
                     if(E->data != 0.0)
-                        append(L, E);
+                        append(L, newEntry(E->column, E->data));
                 }
             }
         }
+        freeEntry(&E);
     }
 }
 
@@ -192,8 +205,7 @@ Matrix copy(Matrix A) {
             moveFront(L);
         while(index(L) >= 0) {
             Entry E = get(L);
-            Entry F = newEntry(E->column, E->data);
-            append(result->arr[i], F);
+            append(result->arr[i], newEntry(E->column, E->data));
             moveNext(L);
         }
     }
@@ -208,8 +220,7 @@ Matrix transpose(Matrix A) {
             moveFront(L);
         while(index(L) >= 0) {
             Entry E = get(L);
-            Entry F = newEntry(i + 1, E->data);
-            append(result->arr[E->column - 1], F);
+            append(result->arr[E->column - 1], newEntry(i + 1, E->data));
             moveNext(L);
         }
     }
@@ -224,13 +235,140 @@ Matrix scalarMult(double x, Matrix A) {
             moveFront(L);
         while(index(L) >= 0) {
             Entry E = get(L);
-            Entry F = newEntry(E->column, E->data * 1.5);
-            append(result->arr[i], F);
+            append(result->arr[i], newEntry(E->column, E->data * 1.5));
             moveNext(L);
         }
-        
     }
     return result;
+}
+
+Matrix sum(Matrix A, Matrix B) {
+    if(A == NULL && B == NULL) {
+        printf("Matrix Error: calling sum() on NULL Matrix refernce");
+        exit(1);
+    }
+
+    // Check for the same size Matrix
+    if(size(A) != size(B)) {
+        printf("Matrix Error: calling sum() on mismatched Matrix sizes");
+        exit(1);
+    }
+    // If A = B = M, Then A + B = 2M 
+    else if(equals(A, B)) 
+        return scalarMult(2.0, copy(A));
+    // If A = M & B = -M, Then A + B = 0
+    else if(equals(A, scalarMult(-1.0, B))) 
+        return newMatrix(size(A));
+    // If A != B, Then A + B
+    else {
+        // Make a copy of Matrix A to modify
+        Matrix result = copy(A);
+        for(int i = 0; i < size(A); i++){
+            List L = B->arr[i];
+            List N = result->arr[i];
+            if(!isEmpty(L))
+                moveFront(L);
+            if(!isEmpty(N))
+                moveFront(N);
+            while(index(L) >= 0) {
+                Entry E = get(L);
+                if(index(N) >= 0) {
+                    Entry F = get(N);
+                    if(E->column == F->column) {
+                        F->data = F->data + E->data;
+                        if(F->data == 0.0) {
+                            delete(N);
+                            moveNext(L);
+                            if(index(N) == -1 && !isEmpty(N)) {
+                                moveFront(N);
+                            }
+                        }
+                        else {
+                            moveNext(L);
+                            moveNext(N);
+                        }
+                    }
+                    else if(E->column < F->column) {
+                        insertBefore(N, newEntry(E->column, E->data));
+                        moveNext(L);
+                    }
+                    else {
+                        moveNext(N);
+                    }
+                }
+                else {
+                    append(L, newEntry(E->column, E->data));
+                    moveNext(L);
+                }
+            }
+        }
+        return result;
+    }
+}
+
+Matrix diff(Matrix A, Matrix B) {
+    if(A == NULL && B == NULL) {
+        printf("Matrix Error: calling sum() on NULL Matrix refernce");
+        exit(1);
+    }
+
+    // Check for the same size Matrix
+    if(size(A) != size(B)) {
+        printf("Matrix Error: calling sum() on mismatched Matrix sizes");
+        exit(1);
+    }
+    // If A = B = M, Then A - B = 0 
+    else if(equals(A, B)) 
+        return newMatrix(size(A));
+    // If A = M & B = -M, Then A - B = 2M
+    else if(equals(A, scalarMult(-1.0, B))) 
+        return scalarMult(2.0, copy(A));
+    // If A != B, Then A + B
+    else {
+        // Make a copy of Matrix A to modify
+        Matrix result = copy(A);
+        // Modify copy to be Matrix Result
+        for(int i = 0; i < size(A); i++){
+            List L = B->arr[i];
+            List N = result->arr[i];
+            if(!isEmpty(L))
+                moveFront(L);
+            if(!isEmpty(N))
+                moveFront(N);
+            while(index(L) >= 0) {
+                Entry E = get(L);
+                if(index(N) >= 0) {
+                    Entry F = get(N);
+                    if(E->column == F->column) {
+                        F->data = F->data - E->data;
+                        if(F->data == 0.0) {
+                            delete(N);
+                            moveNext(L);
+                            if(index(N) == -1 && !isEmpty(N)) {
+                                moveFront(N);
+                            }
+                        }
+                        else {
+                            moveNext(L);
+                            moveNext(N);
+                        }
+                    }
+                    else if(E->column < F->column) {
+                        insertBefore(N, newEntry(E->column, E->data * -1));
+                        moveNext(L);
+                    }
+                    else {
+                        moveNext(N);
+                    }
+                }
+                else {
+                    append(L, newEntry(E->column, E->data * -1));
+                    moveNext(L);
+                }
+            }
+        }
+        return result;
+    }
 }
 
 // other

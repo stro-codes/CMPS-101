@@ -65,17 +65,17 @@ Matrix scalarMult(double x, Matrix A);
 // sum()
 // Returns a reference to a new Matrix object representing A+B.
 // pre: size(A)==size(B)
-//Matrix sum(Matrix A, Matrix B);
+Matrix sum(Matrix A, Matrix B);
 
 // diff()
 // Returns a reference to a new Matrix object representing A-B.
 // pre: size(A)==size(B)
-//Matrix diff(Matrix A, Matrix B);
+Matrix diff(Matrix A, Matrix B);
 
 // product()
 // Returns a reference to a new Matrix object representing AB
 // pre: size(A)==size(B)
-//Matrix product(Matrix A, Matrix B);
+Matrix product(Matrix A, Matrix B);
 
 // printMatrix()
 // Prints a string representation of Matrix M to filestream out. Zero rows
