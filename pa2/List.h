@@ -16,6 +16,7 @@ List newList(void);
 void freeList(List* pL);
 
 // Access functions -----------------------------------------------------------
+int isEmpty(List L);
 int length(List L);
 int index(List L);
 void* front(List L);
@@ -35,8 +36,5 @@ void insertAfter(List L, void* data);
 void deleteFront(List L);
 void deleteBack(List L);
 void delete(List L);
-
-// Other operations -----------------------------------------------------------
-// void printList(FILE* out, List L);
 
 #endif

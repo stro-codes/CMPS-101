@@ -5,20 +5,18 @@
 // Matrix ADT Interface
 // Matrix.h
  
-#ifndef _LIST_H_INCLUDE_
-#define _LIST_H_INCLUDE_
 #ifndef _MATRIX_H_INCLUDE_
 #define _MATRIX_H_INCLUDE_
 
 // exported type
 
-typdef struct MatrixObj* Matrix;
+typedef struct MatrixObj* Matrix;
 
 // structs
 
 // newMatrix()
 // Returns a reference to a new Matrix object in the zero state.
-Matrix newMatrix();
+Matrix newMatrix(int n);
 
 // freeMatrix()
 // Frees heap memory associated with *pM, sets *pM to NULL.
@@ -50,6 +48,7 @@ void makeZero(Matrix M);
 void changeEntry(Matrix M, int i, int j, double x);
 
 // Matrix Arithmetic operations
+
 // copy()
 // Returns a reference to a new Matrix object having the same entries as A.
 Matrix copy(Matrix A);
@@ -58,6 +57,7 @@ Matrix copy(Matrix A);
 // Returns a reference to a new Matrix object representing the transpose
 // of A.
 Matrix transpose(Matrix A);
+
 // scalarMult()
 // Returns a reference to a new Matrix object representing xA.
 Matrix scalarMult(double x, Matrix A);
@@ -65,17 +65,17 @@ Matrix scalarMult(double x, Matrix A);
 // sum()
 // Returns a reference to a new Matrix object representing A+B.
 // pre: size(A)==size(B)
-Matrix sum(Matrix A, Matrix B);
+//Matrix sum(Matrix A, Matrix B);
 
 // diff()
 // Returns a reference to a new Matrix object representing A-B.
 // pre: size(A)==size(B)
-Matrix diff(Matrix A, Matrix B);
+//Matrix diff(Matrix A, Matrix B);
 
 // product()
 // Returns a reference to a new Matrix object representing AB
 // pre: size(A)==size(B)
-Matrix product(Matrix A, Matrix B);
+//Matrix product(Matrix A, Matrix B);
 
 // printMatrix()
 // Prints a string representation of Matrix M to filestream out. Zero rows

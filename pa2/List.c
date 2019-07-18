@@ -7,7 +7,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include "List.h"
+#include"List.h"
 
 // structs --------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ typedef struct NodeObj {
 typedef NodeObj* Node;
 
 // private ListObj type
-typedef struct ListObj{
+typedef struct ListObj {
 	Node front;
 	Node back;
 	int length;
@@ -39,6 +39,7 @@ typedef ListObj* List;
 // Private.
 Node newNode(void* data){
 	Node N = malloc(sizeof(NodeObj));
+	// N->data = malloc(sizeof(void));
 	N->data = data;
 	N->next = N->prev = NULL;
 	return(N);
@@ -102,12 +103,12 @@ int index(List L) {
 		exit(1);
 	}
 	
-	if(!isEmpty(L) && !(L->cursor => length(L)) {
+	if(!isEmpty(L) && !(L->cursor >= length(L))) {
 		return(L->cursor);
 	}
 	else {
-		return -1;
-	} 
+		return -1; 
+	}
 }
 
 void* front(List L) {
@@ -120,7 +121,7 @@ void* front(List L) {
 		exit(1);
 	}
 	
-	return(*(type*)L->front->data);
+	return L->front->data;
 }
 
 void* back(List L) {
@@ -422,17 +423,3 @@ void delete(List L) {
 	}	
 }
 
-// Other operations -----------------------------------------------------------
-
-void printList(FILE* out, List L) {
-	if(L == NULL) {
-		printf("List Error: calling delete() on NULL List reference\n");
-		exit(1);
-	}
-	
-	Node N = NULL;
-	for(N = L->front; N != NULL; N = N->next) {
-		fprintf(out, "%d ", N->data);
-	}
-	fprintf(out, "\n");
-}
