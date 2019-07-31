@@ -437,46 +437,29 @@ Matrix diff(Matrix A, Matrix B) {
 
 double vectorDot(List L, List R) {
 	double result = 0.0;
-	if(L == NULL || R == NULL || isEmpty(L) || isEmpty(R))
+	if(L == NULL || R == NULL)
 		return 0.0;
+	if(isEmpty(L) || isEmpty(R)) {
+		return 0.0;
+	}
 	else {
 		moveFront(L);
-        for(int i = 0; i < length(L); i++) {
-            if(index(L) >= 0) {
-                Entry E = get(L);
-                moveFront(R);
-                for(int j = 0; j < length(R); j++) {
-                    if(index(R) >= 0) {
-                        Entry F = get(R);
-                        if(E->column == F->column) {
-                            result = result + (E->data * F->data);
-                            j = length(R);
-                        }
-                        moveNext(R);
-                    }
-                }
-                moveNext(L);
-            }
-        }
-
-        /*
-        while(index(L) >= 0 && index(R) >= 0 && index(L) < length(L) && index(R) < length(R)) {
-            Entry E = get(L);
-            Entry F = get(R);
-            if(E->column == F->column) {
-                result = result + (E->data * F->data);
-                moveNext(L);
-                moveNext(R);
-            }
-            else if(E->column < F->column) {
-                moveNext(L);
-            }
-            else {
-                moveNext(R);
-            }
+		moveFront(R);
+		while(index(L) >= 0 && index(R) >= 0) {
+			Entry E = get(L);
+			Entry F = get(R);
+			if(E->column == F->column) {
+				result = result + (E->data * F->data);
+				moveNext(L);
+				moveNext(R);
+			}
+			else if(E->column < F->column) {
+				moveNext(L);
+			}
+			else {
+				moveNext(R);
+			}
 		}
-        
-         */
 	}
 	return result;
 }

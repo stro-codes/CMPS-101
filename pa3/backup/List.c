@@ -1,19 +1,19 @@
 // Strother Woog
 // 1618221
 // CMPS 101
-// 7/3/19
+// 5/28/19
 // Implementation file for List ADT
 // List.c
 
 #include<stdio.h>
 #include<stdlib.h>
-#include"List.h"
+#include "List.h"
 
 // structs --------------------------------------------------------------------
 
 // private NodeObj type
 typedef struct NodeObj {
-	void* data;
+	int data;
 	struct NodeObj* next;
 	struct NodeObj* prev;
 } NodeObj;
@@ -22,7 +22,7 @@ typedef struct NodeObj {
 typedef NodeObj* Node;
 
 // private ListObj type
-typedef struct ListObj {
+typedef struct ListObj{
 	Node front;
 	Node back;
 	int length;
@@ -37,9 +37,8 @@ typedef ListObj* List;
 // newNode()
 // Returns reference to new Node object. Initializes next and data fields.
 // Private.
-Node newNode(void* data){
+Node newNode(int data){
 	Node N = malloc(sizeof(NodeObj));
-	// N->data = malloc(sizeof(void));
 	N->data = data;
 	N->next = N->prev = NULL;
 	return(N);
@@ -103,17 +102,15 @@ int index(List L) {
 		exit(1);
 	}
 	
-	if(!isEmpty(L)) {
-		if(L->cursor < L->length  && L->cursor >= 0) 
-			return (L->cursor);
-		else
-			return -1;
+	if(L->cursor <= L->length && length(L) > 0) {
+		return(L->cursor);
 	}
-	else 
-		return -1; 
+	else {
+		return -1;
+	}
 }
 
-void* front(List L) {
+int front(List L) {
 	if(L == NULL) {
 		printf("List Error: calling front() on NULL List reference\n");
 		exit(1);
@@ -123,10 +120,10 @@ void* front(List L) {
 		exit(1);
 	}
 	
-	return L->front->data;
+	return(L->front->data);
 }
 
-void* back(List L) {
+int back(List L) {
 	if(L == NULL) {
 		printf("List Error: calling back() on NULL List reference\n");
 		exit(1);
@@ -139,7 +136,7 @@ void* back(List L) {
 	return(L->back->data);
 }
 
-void* get(List L) {
+int get(List L) {
 	if(L == NULL) {
 		printf("List Error: calling get() on NULL List reference\n");
 		exit(1);
@@ -156,6 +153,27 @@ void* get(List L) {
 		N = N->next;
 	}
 	return N->data;
+}
+
+int equals(List A, List B) {
+	int eq = 0;
+	Node N = NULL;
+	Node M = NULL;
+
+	if(A == NULL || B == NULL) {
+		printf("List Error: calling equals() on NULL List reference\n");
+		exit(1);
+	}
+
+	eq = (A->length == B->length);
+	N = A->front;
+	M = B->front;
+	while(eq && N != NULL) {
+		eq = (N->data == M->data);
+		N = N->next;
+		M = M->next;
+	}
+	return eq;
 }
 
 // Manipulation procedures ----------------------------------------------------
@@ -233,15 +251,15 @@ void moveNext(List L) {
 		exit(1);
 	}
 	
-	//if(index(L) == length(L) - 1) {
-	//	L->cursor = -1;
-	//}
-	//else {
+	if(index(L) == length(L) - 1) {
+		L->cursor = -1;
+	}
+	else {
 		L->cursor++;
-	//}
+	}
 }
 
-void prepend(List L, void* data) {
+void prepend(List L, int data) {
 	if(L == NULL) {
 		printf("List Error: calling prepend() on NULL List reference\n");
 		exit(1);
@@ -262,7 +280,7 @@ void prepend(List L, void* data) {
 	}
 }
 
-void append(List L, void* data) {
+void append(List L, int data) {
 	if(L == NULL) {
 		printf("List Error: calling append() on NULL List reference\n");
 		exit(1);
@@ -280,7 +298,7 @@ void append(List L, void* data) {
 	L->length = L->length + 1;
 }
 
-void insertBefore(List L, void* data) {
+void insertBefore(List L, int data) {
 	if(L == NULL) {
 		printf("List Error: calling insertBefore() on NULL List reference\n");
 		exit(1);
@@ -311,7 +329,7 @@ void insertBefore(List L, void* data) {
 	}
 }
 
-void insertAfter(List L, void* data) {
+void insertAfter(List L, int data) {
 	if(L == NULL) {
 		printf("List Error: calling insertAfter() on NULL List reference\n");
 		exit(1);
@@ -347,10 +365,10 @@ void deleteBack(List L) {
 		exit(1);
 	}
 	if(isEmpty(L)) {
-		printf("List Error: calling deleteBack() on an empty1 List\n");
+		printf("List Error: calling deleteBack() on an empty List\n");
 		exit(1);
 	}
-	
+
 	if(L->length > 1) {
 		Node N = L->back;
 		L->back = L->back->prev;
@@ -364,7 +382,6 @@ void deleteBack(List L) {
 	else {
 		clear(L);
 	}
-	
 }
 
 void deleteFront(List L) {
@@ -388,7 +405,6 @@ void deleteFront(List L) {
 	else {
 		clear(L);
 	}
-	
 }
 
 void delete(List L) {
@@ -425,3 +441,26 @@ void delete(List L) {
 	}	
 }
 
+// Other operations -----------------------------------------------------------
+
+void printList(FILE* out, List L) {
+	if(L == NULL) {
+		printf("List Error: calling delete() on NULL List reference\n");
+		exit(1);
+	}
+	
+	Node N = NULL;
+	for(N = L->front; N != NULL; N = N->next) {
+		fprintf(out, "%d ", N->data);
+	}
+	fprintf(out, "\n");
+}
+
+List copyList(List L) {
+	Node N = NULL;
+	List M = newList();
+	for(N = L->front; N != NULL; N = N->next) {
+		append(M, N->data);
+	}
+	return M;
+}
