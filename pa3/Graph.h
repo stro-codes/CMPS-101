@@ -1,9 +1,8 @@
-// Strother Woog
-// 1618221
-// CMPS 101
-// 5/28/19
-// Header file for Graph ADT
+// Strother Woog, swoog
+// 2019 Summer CMPS 101 PA3
 // Graph.h
+// Header file for Graph ADT
+// 7/6/19
 
 #ifndef _GRAPH_H_INCLUDE_
 #define _GRAPH_H_INCLUDE_

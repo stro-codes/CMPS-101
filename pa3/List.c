@@ -1,9 +1,8 @@
-// Strother Woog
-// 1618221
-// CMPS 101
-// 5/28/19
-// Implementation file for List ADT
+// Strother Woog, swoog
+// 2019 Summer CMPS 101 PA3
 // List.c
+// Implementation file for List ADT
+// 7/6/19
 
 #include<stdio.h>
 #include<stdlib.h>

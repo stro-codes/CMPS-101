@@ -1,9 +1,8 @@
-// Strother Woog
-// 1618221
-// CMPS 101
-// 5/28/19
-// Graph ADT for Breadth-First Search on Adjacent Vertices
+// Strother Woog, swoog
+// 2019 Summer CMPS 101 PA3
 // Graph.c
+// Graph ADT for Breadth-First Search on Adjacent Vertices
+// 7/6/19
 
 #include<stdio.h>
 #include<stdlib.h>

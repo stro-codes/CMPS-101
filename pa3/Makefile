@@ -1,9 +1,8 @@
-# Strother Woog
-# 1618221
-# CMPS 101
-# 5/28/19
-# Makefile for CMPS 101 Programming Assignment 4
+# Strother Woog, swoog
+# 2019 Summer CMPS101 PA3
 # Makefile
+# Makefile for CMPS 101 Programming Assignment 3
+# 7/6/19
 
 # FindPath
 FindPath : FindPath.o List.o Graph.o
