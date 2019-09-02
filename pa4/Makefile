@@ -1,15 +1,14 @@
-# Strother Woog, swoog
-# 2019 Summer CMPS101 PA3
+# Strother Woog, 1618221
+# 2019 Summer CMPS 101 PA4
 # Makefile
-# Makefile for CMPS 101 Programming Assignment 3
-# 7/6/19
+# Makefile for CMPS 101 Programming Assignment 4
 
 # FindPath
-FindPath : FindPath.o List.o Graph.o
-	gcc -o FindPath FindPath.o List.o Graph.o
+FindComponents : FindComponents.o List.o Graph.o
+	gcc -o FindComponents FindComponents.o List.o Graph.o
 	
-FindPath.o : FindPath.c List.h Graph.h
-	gcc -c -std=c99 -Wall FindPath.c
+FindComponents.o : FindComponents.c List.h Graph.h
+	gcc -c -std=c99 -Wall FindComponents.c
 
 # ListClient
 ListClient: ListClient.o List.o
@@ -42,5 +41,5 @@ Graph.o : Graph.c Graph.h
 
 # Clean
 clean :
-	rm -f FindPath ListClient GraphClient FindPath.o ListClient.o GraphClient.o List.o Graph.o
+	rm -f FindComponents ListClient GraphClient FindComponents.o ListClient.o GraphClient.o List.o Graph.o
  

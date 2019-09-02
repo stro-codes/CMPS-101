@@ -1,8 +1,7 @@
-// Strother Woog, swoog
-// 2019 Summer CMPS 101 PA3
+// Strother Woog, 1618221
+// 2019 Summer CMPS 101 PA4
 // List.h
 // Header file for List ADT
-// 7/6/19
 
 #ifndef _LIST_H_INCLUDE_
 #define _LIST_H_INCLUDE_

@@ -1,8 +1,7 @@
-// Strother Woog, swoog
-// 2019 Summer CMPS 101 PA3
+// Strother Woog, 1618221
+// 2019 Summer CMPS 101 PA4
 // GraphTest.c
 // Test file for Graph ADT
-// 7/6/19
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -59,6 +58,8 @@ int main(int argc, char* argv[]){
    
 	// testing the graph	// Test Cases:
 	printGraph(stdout , G); // 0
+	printf("\n");
+
 	
 	printf("%d\n", getOrder(G));
 	printf("%d\n", getSize(G));
@@ -67,39 +68,40 @@ int main(int argc, char* argv[]){
 	
 	addArc(G, 4, 6);
 	addArc(G, 6, 4);
+	addArc(G, 5, 7);
 	
 	printGraph(stdout , G); // 1
+	printf("\n");
+
 	
-	addEdge(G, 3, 5);
 	
 	printGraph(stdout , G); // 2
-	
-	BFS(G, 5);
-	printf("%d\n", getSource(G));
-	printf("%d\n", getParent(G, 4));
-	printf("%d\n", getDist(G, 4));
-	printf("%d\n", getParent(G, 6));
-	printf("%d\n", getDist(G, 6));
-	printf("%d\n", getParent(G, 3));
-	printf("%d\n", getDist(G, 3));
-	printf("%d\n", getParent(G, 5));
-	printf("%d\n", getDist(G, 5));
+	printf("\n");
 	
 	List L = newList();
-	getPath(L, G, 4);
-	printList(stdout, L);
-	getPath(L, G, 6);
-	printList(stdout, L);
-	getPath(L, G, 3);
-	printList(stdout, L);
-	getPath(L, G, 5);
+	for(int i = 1; i <= getOrder(G); i++) {
+		append(L, i);
+	}
+	
+	DFS(G, L);
 	printList(stdout, L);
 	
-	printGraph(stdout , G); // 3
+	Graph T = transpose(G);
 	
+	printGraph(stdout , T); // 3
+	printf("\n");
+	
+	DFS(T, L);
+	printList(stdout, L);
+	
+	printGraph(stdout , G); // 4
+	printf("\n");
+
 	makeNull(G);
 
 	printGraph(stdout , G); // N
+	printf("\n");
+
 	
 	// close test program
 	return(0);

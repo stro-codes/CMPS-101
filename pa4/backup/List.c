@@ -1,8 +1,7 @@
-// Strother Woog, swoog
-// 2019 Summer CMPS 101 PA3
+// Strother Woog, 1618221
+// 2019 Summer CMPS 101 PA4
 // List.c
 // Implementation file for List ADT
-// 7/6/19
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -444,7 +443,7 @@ void delete(List L) {
 
 void printList(FILE* out, List L) {
 	if(L == NULL) {
-		printf("List Error: calling delete() on NULL List reference\n");
+		printf("List Error: calling printList() on NULL List reference\n");
 		exit(1);
 	}
 	
